@@ -4,10 +4,6 @@ use petgraph::{
 };
 use std::fmt;
 
-// impl<'a, G> Dot<'a, G>
-// where
-// G: IntoNodeReferences + IntoEdgeReferences,
-
 pub fn print_graph_svg<G>(graph: G)
 where
     G: IntoNodeReferences + IntoEdgeReferences + NodeIndexable + GraphProp,
