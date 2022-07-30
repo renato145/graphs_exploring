@@ -4,7 +4,7 @@ use petgraph::{
 };
 use std::{collections::HashMap, fmt, fmt::Write};
 
-fn get_graph_viz<G>(graph: G) -> String
+pub fn get_graph_viz<G>(graph: G) -> String
 where
     G: IntoNodeReferences + IntoEdgeReferences + NodeIndexable + GraphProp,
     G::EdgeWeight: fmt::Debug,
@@ -23,6 +23,16 @@ where
     println!("{}", get_graph_viz(graph));
 }
 
+pub fn print_graph_dots(dots: &[String]) {
+    println!("digraph {{");
+    dots.iter().enumerate().for_each(|(i, dot)| {
+        let mut dot = dot.to_string().replacen("digraph", "subgraph", 1);
+        add_suffix(&mut dot, &format!("{i:03}"));
+        println!("{}", dot);
+    });
+    println!("}}");
+}
+
 pub fn print_graphs_svg<G>(graphs: &[G])
 where
     G: IntoNodeReferences + IntoEdgeReferences + NodeIndexable + GraphProp,
@@ -30,11 +40,11 @@ where
     G::NodeWeight: fmt::Debug,
 {
     println!("digraph {{");
-    graphs.iter().enumerate().for_each(|(i, graph)| {
-        let mut dot = get_graph_viz(graph).replacen("digraph", "subgraph", 1);
-        add_suffix(&mut dot, &format!("{i:03}"));
-        println!("{}", dot);
-    });
+    let dots = graphs
+        .into_iter()
+        .map(|graph| get_graph_viz(graph))
+        .collect::<Vec<_>>();
+    print_graph_dots(&dots[..]);
     println!("}}");
 }
 
