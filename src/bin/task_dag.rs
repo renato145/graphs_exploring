@@ -1,16 +1,13 @@
 //! Example of transitive reduction on a graph of tasks
-use graphs_exploring::{get_graph_viz, print_graph_dots, print_graphs_svg};
+use graphs_exploring::{get_graph_viz, print_graph_dots};
 use petgraph::prelude::*;
 use petgraph::{
     algo::{
         toposort,
         tred::{dag_to_toposorted_adjacency_list, dag_transitive_reduction_closure},
     },
-    data::{DataMap, FromElements},
     graph::NodeIndex,
-    visit::{
-        GetAdjacencyMatrix, IntoEdgeReferences, IntoEdges, IntoNodeIdentifiers, IntoNodeReferences,
-    },
+    visit::IntoEdgeReferences,
     Graph,
 };
 
@@ -31,7 +28,6 @@ fn main() {
         (2, 4, 1),
         (3, 4, 2),
     ]);
-    // println!("{:?}", graph);
 
     // Transitive reduction
     let sorted = toposort(&graph, None).expect("Not acyclic graph");

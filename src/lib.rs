@@ -40,10 +40,7 @@ where
     G::NodeWeight: fmt::Debug,
 {
     println!("digraph {{");
-    let dots = graphs
-        .into_iter()
-        .map(|graph| get_graph_viz(graph))
-        .collect::<Vec<_>>();
+    let dots = graphs.iter().map(get_graph_viz).collect::<Vec<_>>();
     print_graph_dots(&dots[..]);
     println!("}}");
 }
